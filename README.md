@@ -1,12 +1,15 @@
 # wsl-copy-ssh-keys
 
-**Feel free to use, fork, modify.** 
+## **Feel free to use, fork, modify.** 
 
-Copy SSH keys from Windows to WSL2 and add specified private key to authentication agent in WSL.
+#### This is a bash script that can be used to copy existing SSH keys from your Windows host to WSL and add a specified private key to the authentication agent within WSL.
 
-By default, this script will look in `C:\Users\<your logged in Windows account>\.ssh\` for the keys. 
+- Tested and working with WSL2 Ubuntu-22.04
 
-This translates to `/mnt/c/Users/<your account>/.ssh/` in WSL. You can hit enter to accept the default.
-If you need to specify a different path, it must be accessible from WSL and entered in the linux format. For example: `/mnt/your/path/to/keys`, `/mnt/c/SomeDirectory/JohnSmith123/AnotherDirectory`
+- By default, this script will target `C:\Users\<your logged in Windows account>\.ssh\` for the keys. 
+  - This translates to `/mnt/c/Users/<your account>/.ssh/` in WSL. You can hit enter to accept the default.
+  - The script will copy **ALL** of the files in the target folder, so your known_hosts, public key, etc., will all be available in WSL.
+  - If you need to specify a different path, it must be accessible from WSL and entered in the linux format. For example: `/mnt/your/path/to/keys`, `/mnt/c/SomeDirectory/JohnSmith123/AnotherDirectory`
+    - [Click to learn more about working across file systems in WSL](https://learn.microsoft.com/en-us/windows/wsl/filesystems#file-storage-and-performance-across-file-systems)
 
-The next prompt will ask for the name of your private key. Once again, you can hit enter to accept the default, 'id_rsa'.
+- The next prompt will ask for the name of your private key. Once again, you can hit enter to accept the default, 'id_rsa'.
