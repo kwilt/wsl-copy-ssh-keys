@@ -1,0 +1,54 @@
+#!/bin/bash
+
+#Set up colors for output
+GREEN="\033[0;32m"
+YELLOW="\033[38;5;11m"
+BLUE="\x1b[38;5;39m"
+NOCOLOR="\033[0m"
+
+windowsUsername () {
+    powershell.exe '$env:USERNAME' | tr -d $'\r'
+}
+
+read -p "$( echo -e Enter path of SSH keys ${YELLOW}[/mnt/c/Users/$(windowsUsername)/.ssh/]${NOCOLOR}: )" keyLocation
+keyLocation=${keyLocation:-/mnt/c/Users/$(windowsUsername)/.ssh/}
+
+echo
+
+function listFiles(){
+  ls -1 $keyLocation
+}
+
+echo -e ${GREEN}"Found files in $keyLocation:"${NOCOLOR}
+echo
+echo -e ${BLUE}"$(listFiles)"${NOCOLOR}
+
+echo
+
+read -p "$(echo -e Enter name of private key ${YELLOW}[id_rsa]${NOCOLOR}: )" privateKey
+privateKey=${privateKey:-id_rsa}
+
+echo
+
+if [ ! -d /home/$(whoami)/.ssh ]; then
+  mkdir /home/$(whoami)/.ssh
+fi
+
+echo -e ${YELLOW}"Copying files from $keyLocation to ~/.ssh/" ${NOCOLOR}
+cp -R $keyLocation* /home/$(whoami)/.ssh/
+
+echo
+
+echo -e ${YELLOW}"Setting file permissions"${NOCOLOR}
+chmod -R 644 /home/$(whoami)/.ssh/*
+chmod -R 600 /home/$(whoami)/.ssh/$privateKey
+
+echo
+
+echo -e ${YELLOW}"Adding private key to authentication agent"${NOCOLOR}
+
+echo
+
+cd /home/$(whoami)/.ssh && eval `ssh-agent -s` ssh-add $privateKey
+
+echo
