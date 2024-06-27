@@ -41,7 +41,7 @@ echo
 
 echo -e ${YELLOW}"Setting file permissions"${NOCOLOR}
 chmod -R 644 /home/$(whoami)/.ssh/*
-chmod -R 600 /home/$(whoami)/.ssh/$privateKey
+chmod 600 /home/$(whoami)/.ssh/$privateKey
 
 echo
 
