@@ -1,6 +1,6 @@
 # wsl-copy-ssh-keys
 
-**Feel free to use or modify.** 
+**Feel free to use, fork, modify.** 
 
 Copy SSH keys from Windows to WSL2 and add specified private key to authentication agent in WSL.
 
